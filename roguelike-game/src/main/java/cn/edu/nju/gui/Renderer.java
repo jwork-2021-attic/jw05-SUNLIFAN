@@ -1,5 +1,6 @@
 package cn.edu.nju.gui;
 
+import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.entity.Bullet;
 import cn.edu.nju.entity.Monster;
 import cn.edu.nju.entity.Player;
@@ -11,6 +12,9 @@ import cn.edu.nju.utils.Direction;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+import java.util.List;
+import java.awt.Font;
+import java.awt.Color;
 
 public class Renderer {
     private int zoomLevel;
@@ -81,10 +85,11 @@ public class Renderer {
      * @param player
      * @param graphics
      */
-    public void renderBullets(Collection<Bullet> bullets, Player player, Graphics graphics){
+    public void renderBullets(List<Bullet> bullets, Player player, Graphics graphics){
         if(bullets == null || bullets.isEmpty())return;
 
-        for(Bullet b : bullets){
+        for(int i = 0 ; i < bullets.size();i++){
+            Bullet b = bullets.get(i);
             BufferedImage sprite = Textures.getSprite("bullet");
             int drawPosX = calculateWidthOffset(sprite, b, player);
             int drawPosY = calculateHeightOffset(sprite, b, player);
@@ -93,6 +98,40 @@ public class Renderer {
         }
     }
 
+    /**
+     * render start screen
+     * @param graphics
+     */
+    public void renderTitleScreen(Graphics graphics) {
+		graphics.setColor(Color.WHITE);
+		graphics.drawRoundRect(50, 50, Window.WIDTH-150, Window.HEIGHT-150, 10, 10);
+		graphics.setFont(new Font("Dialog", Font.PLAIN, 40));
+		graphics.drawString("Roguelike Game", 100, 100);
+		graphics.setFont(new Font("Dialog", Font.PLAIN, 20));
+		graphics.drawString("Greetings chosen,", 100, 150);
+		graphics.drawString("I've been waiting here for you since the beginning of this universe...", 100, 180);
+		graphics.drawString("You know the world is fading...", 100, 210);
+		graphics.drawString("Can you escape here?", 100, 240);
+		graphics.drawString("Wait for while....", 200, 350);
+	}
+
+    public void renderEndScreen(Graphics graphics){
+        graphics.setColor(Color.WHITE);
+		graphics.drawRoundRect(50, 50, Window.WIDTH-150, Window.HEIGHT-150, 10, 10);
+		graphics.setFont(new Font("Dialog", Font.PLAIN, 40));
+		graphics.drawString("Roguelike Game", 100, 100);
+        if(GameControl.playerWin){
+            graphics.drawString("Marvelous! You have escaped....", 100, 150);
+        }else{
+            graphics.drawString("You died. What a pity ....", 100, 150);
+        }
+    }
+
+    /**
+     * mirror the image based on its facing
+     * @param image
+     * @return
+     */
     private BufferedImage mirrorImage(BufferedImage image) {
 		int h = image.getHeight();
 		int w = image.getWidth();

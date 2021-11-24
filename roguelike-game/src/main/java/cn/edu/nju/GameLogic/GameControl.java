@@ -24,6 +24,9 @@ public class GameControl {
     private static ArrayList<Monster> monsters;
     private static Map map;
     private static List<Bullet> bullets;
+    public static boolean isOnTileScreen;
+    public static boolean gameState;
+    public static boolean playerWin;
     
     private static void init(){
         //create entities and prepare map
@@ -35,6 +38,7 @@ public class GameControl {
         monsters = new ArrayList<>();
         int width = mapData[0].length();
         int height = mapData.length;
+        isOnTileScreen = true;
         for(int i = 0; i < numOfMonsters; i++){
             boolean found = false;
             while(!found){
@@ -61,10 +65,15 @@ public class GameControl {
         }
     }
 
-    public static void startGame(){
+    public static void initGame(){
         Textures.init();
         init();
+    }
 
+    public static void startGame(){
+        isOnTileScreen = false;
+        gameState = true;
+        playerWin = true;
         cachedPool.execute(new BulletAI(bullets, map));
         cachedPool.execute(new PlayerControl(myPlayer));
         for(Monster m : monsters){

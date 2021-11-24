@@ -41,6 +41,7 @@ public class MonsterAI implements Runnable{
             }
            if(internalCounter == 30000000){
             monster.move();
+            if(rand.nextInt(2) == 1)monster.fire(monster.dir);
             internalCounter = 0L;
            }
            internalCounter++;

@@ -35,7 +35,7 @@ public class Creature {
         this.xPos = x;
         this.yPos = y;
         this.maxHealth = 20;
-        this.health = 20;
+        this.health = 10;
         this.strength = 3;
         this.defence = 2;
         this.facing = Direction.LEFT;
@@ -51,6 +51,8 @@ public class Creature {
     public void damage(int amount){
         this.health -= amount;
         if(this.health <= 0){
+            health = 0;
+            map.getTile(xPos, yPos).setCreature(null);
             this.alive = false;
         }
     }
@@ -58,6 +60,8 @@ public class Creature {
     public void setDirection(Direction dir){
         this.dir = dir;
     }
+
+    public int getHealth(){return health;}
     
     public synchronized void move(){
         Tile neighborTile = map.getNeighborTile(xPos, yPos, dir);
@@ -92,7 +96,7 @@ public class Creature {
     public boolean isAlive(){return this.alive;}
 
     public void fire(Direction dir){
-        if(bullets.size() <= 5)bullets.add(new Bullet(strength,dir, xPos, yPos));
+        if(bullets.size() <= 30)bullets.add(new Bullet(strength,dir, xPos, yPos));
         else System.out.println("Bullet list is full !");
     }
 

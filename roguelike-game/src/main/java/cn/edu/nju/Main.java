@@ -1,5 +1,7 @@
 package cn.edu.nju;
 
+import java.util.concurrent.TimeUnit;
+
 import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.gui.Window;
 
@@ -10,10 +12,13 @@ public class Main {
 			System.out.println("[Main]: Starting...");
 			
 			Window.create();
+			GameControl.initGame();
+			Window.setVisible();
+			TimeUnit.MILLISECONDS.sleep(5000);
 			GameControl.startGame();
 			Window.screen.setFocusable(true);
 			Window.screen.requestFocus();
-			Window.setVisible();
+			
 			
 			System.out.println("[Main]: Started!");
 			

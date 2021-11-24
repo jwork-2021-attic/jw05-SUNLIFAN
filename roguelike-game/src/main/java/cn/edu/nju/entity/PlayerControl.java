@@ -2,6 +2,7 @@ package cn.edu.nju.entity;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.gui.Window;
 import cn.edu.nju.utils.Direction;
 
@@ -19,15 +20,24 @@ public class PlayerControl implements Runnable, KeyListener{
     @Override
     public void run() {
         while(active){
-            if(!player.isAlive()){
+            System.out.println("[PlayerControl:]player alive");
+            if(player.getHealth() == 0){
+                System.out.println("[Player Control:]player died");
                 active = false;
+                GameControl.gameState = false;
+                GameControl.playerWin = false;
                 break;
             }
         }
     }
 
+    private void nop(){
+
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
+        
         switch(e.getKeyCode()){
             case KeyEvent.VK_W:
                 player.setDirection(Direction.UP);
@@ -70,6 +80,12 @@ public class PlayerControl implements Runnable, KeyListener{
                 break;
             case KeyEvent.VK_D:
                 player.setDirection(Direction.RIGHT);
+                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
+                    GameControl.gameState = false;
+                    GameControl.playerWin = true;
+                    active = false;
+                    break;
+                }
                 player.move();
                 break;
             case KeyEvent.VK_SPACE:
