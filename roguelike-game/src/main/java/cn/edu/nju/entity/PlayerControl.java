@@ -31,10 +31,6 @@ public class PlayerControl implements Runnable, KeyListener{
         }
     }
 
-    private void nop(){
-
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         
