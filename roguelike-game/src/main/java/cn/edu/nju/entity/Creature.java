@@ -35,7 +35,7 @@ public class Creature {
         this.xPos = x;
         this.yPos = y;
         this.maxHealth = 20;
-        this.health = 10;
+        this.health = 20;
         this.strength = 3;
         this.defence = 2;
         this.facing = Direction.LEFT;

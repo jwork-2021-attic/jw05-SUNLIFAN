@@ -21,7 +21,7 @@ public class BulletAI implements Runnable{
     @Override
     public void run() {
         while(true){
-            if(internalCounter == 10000000){
+            if(internalCounter == 20000000){
             for(int i = 0; i < bullets.size(); i ++){
                 Bullet b = bullets.get(i);
                 b.forward();

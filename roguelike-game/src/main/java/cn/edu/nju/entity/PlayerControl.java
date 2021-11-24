@@ -21,7 +21,7 @@ public class PlayerControl implements Runnable, KeyListener{
     public void run() {
         while(active){
             System.out.println("[PlayerControl:]player alive");
-            if(player.getHealth() == 0){
+            if(!player.isAlive()){
                 System.out.println("[Player Control:]player died");
                 active = false;
                 GameControl.gameState = false;
