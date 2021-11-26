@@ -94,7 +94,7 @@ public class Renderer {
             int drawPosX = calculateWidthOffset(sprite, b, player);
             int drawPosY = calculateHeightOffset(sprite, b, player);
             graphics.drawImage(sprite, drawPosX, drawPosY, 
-            sprite.getWidth()*zoomLevel, sprite.getHeight()*zoomLevel, null);
+            sprite.getWidth(), sprite.getHeight(), null);
         }
     }
 
@@ -112,9 +112,14 @@ public class Renderer {
 		graphics.drawString("I've been waiting here for you since the beginning of this universe...", 100, 180);
 		graphics.drawString("You know the world is fading...", 100, 210);
 		graphics.drawString("Can you escape here?", 100, 240);
-		graphics.drawString("Wait for while....", 200, 350);
+		graphics.drawString("Press enter to start.....", 200, 350);
 	}
 
+
+    /**
+     * render the end screen when game ends
+     * @param graphics
+     */
     public void renderEndScreen(Graphics graphics){
         graphics.setColor(Color.WHITE);
 		graphics.drawRoundRect(50, 50, Window.WIDTH-150, Window.HEIGHT-150, 10, 10);

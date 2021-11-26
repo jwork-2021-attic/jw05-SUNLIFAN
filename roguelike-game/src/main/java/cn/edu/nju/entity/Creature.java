@@ -8,7 +8,7 @@ import cn.edu.nju.utils.Direction;
 
 public class Creature {
     public Map map;
-    private List<Bullet> bullets;
+    protected List<Bullet> bullets;
 
     protected String name;
 
@@ -35,7 +35,7 @@ public class Creature {
         this.xPos = x;
         this.yPos = y;
         this.maxHealth = 20;
-        this.health = 20;
+        this.health = 10;
         this.strength = 3;
         this.defence = 2;
         this.facing = Direction.LEFT;
@@ -48,7 +48,7 @@ public class Creature {
 
     public String getName(){return this.name;}
 
-    public void damage(int amount){
+    public synchronized void damage(int amount){
         this.health -= amount;
         if(this.health <= 0){
             health = 0;
@@ -82,7 +82,6 @@ public class Creature {
                 break;
         }
 
-        
         if(neighborTile!=null && neighborTile.isAvailable()){
             Tile curTile = map.getTile(xPos, yPos);
             curTile.setCreature(null);
@@ -96,7 +95,7 @@ public class Creature {
     public boolean isAlive(){return this.alive;}
 
     public void fire(Direction dir){
-        if(bullets.size() <= 30)bullets.add(new Bullet(strength,dir, xPos, yPos));
+        if(bullets.size() <= 40)bullets.add(new Bullet(strength,dir, xPos, yPos,name));
         else System.out.println("Bullet list is full !");
     }
 

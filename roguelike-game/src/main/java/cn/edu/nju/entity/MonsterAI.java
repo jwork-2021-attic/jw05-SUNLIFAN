@@ -11,6 +11,7 @@ public class MonsterAI implements Runnable{
     private Long internalCounter;
 
 
+
     public MonsterAI(Monster monster){
         this.monster = monster;
         rand = new Random();
@@ -18,7 +19,6 @@ public class MonsterAI implements Runnable{
         internalCounter = 0L;
     }
 
-    
 
     @Override
     public void run() {
@@ -39,12 +39,12 @@ public class MonsterAI implements Runnable{
                     monster.setDirection(Direction.DOWN);
                     break;
             }
-           if(internalCounter == 30000000){
+            if(internalCounter == 10000000){
             monster.move();
-            if(rand.nextInt(2) == 1)monster.fire(monster.dir);
+            if(rand.nextInt(6) == 1)monster.fire(monster.dir);
             internalCounter = 0L;
-           }
-           internalCounter++;
+            }
+            internalCounter++;
         }
         }
     }

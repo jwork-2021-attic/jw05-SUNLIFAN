@@ -21,7 +21,7 @@ public class BulletAI implements Runnable{
     @Override
     public void run() {
         while(true){
-            if(internalCounter == 20000000){
+            if(internalCounter == 1000000){
             for(int i = 0; i < bullets.size(); i ++){
                 Bullet b = bullets.get(i);
                 b.forward();
@@ -41,8 +41,8 @@ public class BulletAI implements Runnable{
                         Creature c = tile.getCreature();
                         System.out.println("[BULLET AI]"+c.getName() + " was hit ! ");
                         System.out.println("[BULLET AI]the health of "+ c.getName() + " is " + c.getHealth());
-                        b.hit(c);
-                        bullets.remove(b);
+                        boolean success = b.hit(c);
+                        if(success)bullets.remove(b);
                     }
                 }
             }

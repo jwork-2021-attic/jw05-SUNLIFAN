@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import cn.edu.nju.scene.Map;
+import cn.edu.nju.utils.Direction;
 
 public class Monster extends Creature{
 
@@ -19,10 +20,15 @@ public class Monster extends Creature{
 
     public Type getType(){return this.type;}
 
+    public void fire(Direction dir){
+        if(bullets.size() <= 50)bullets.add(new Bullet(strength,dir, xPos, yPos,"monster"));
+        else System.out.println("Bullet list is full !");
+    }
+
     public enum Type {
-        BAT("bat", 7, 2, 0),
-        RAT("rat", 11, 2, 0),
-        GHOST("ghost", 13, 3, 1);
+        BAT("bat", 15, 2, 0),
+        RAT("rat", 20, 2, 0),
+        GHOST("ghost", 30, 3, 1);
         
         private String name;
         private int hp;

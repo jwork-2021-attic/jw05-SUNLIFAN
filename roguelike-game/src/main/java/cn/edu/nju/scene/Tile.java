@@ -27,10 +27,16 @@ public class Tile {
     
     public int getYPos(){return this.yPos;}
 
-    public void setCreature(Creature c){
-        if(available)this.creature = c;
-        if(c == null)this.available = true;
-        else this.available = false;
+    public synchronized void setCreature(Creature c){
+        if(c == null){
+            this.available = true;
+            creature = null;
+        }
+        else if(available){
+            this.available = false;
+            this.creature = c;
+        }
+        return;
     }
 
     public Creature getCreature(){return this.creature;}

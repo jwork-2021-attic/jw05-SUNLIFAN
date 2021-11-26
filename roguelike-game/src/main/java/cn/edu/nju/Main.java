@@ -1,25 +1,28 @@
 package cn.edu.nju;
 
-import java.util.concurrent.TimeUnit;
-
 import cn.edu.nju.GameLogic.GameControl;
+import cn.edu.nju.gui.KeyBoard;
 import cn.edu.nju.gui.Window;
+
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
         try {
 			
 			System.out.println("[Main]: Starting...");
-			
 			Window.create();
 			GameControl.initGame();
 			Window.setVisible();
-			TimeUnit.MILLISECONDS.sleep(5000);
-			GameControl.startGame();
 			Window.screen.setFocusable(true);
 			Window.screen.requestFocus();
-			
-			
+			KeyBoard kb = new KeyBoard();
+			Window.screen.addKeyListener(kb);
+			while(!kb.enter_be_pressed){
+				System.out.println("WAITING TO START.....");
+			}
+			TimeUnit.MILLISECONDS.sleep(2000);
+			GameControl.startGame();
 			System.out.println("[Main]: Started!");
 			
 		} catch(Exception e) {

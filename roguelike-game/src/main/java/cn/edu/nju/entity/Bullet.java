@@ -9,13 +9,15 @@ public class Bullet {
     private Direction direction;
     private int xPos;
     private int yPos;
+    private String shotBy;
     
-    public Bullet(int attackVal, Direction direction,int x, int y){
+    public Bullet(int attackVal, Direction direction,int x, int y,String shotBy){
         this.attack = attackVal;
         this.direction = direction;
         this.active = true;
         this.xPos = x;
         this.yPos = y;
+        this.shotBy = shotBy;
     }
 
     public int getXPos(){return this.xPos;}
@@ -47,9 +49,13 @@ public class Bullet {
      * hit has to take effect orderly, thus need synchronized
      * @param c
      */
-    public synchronized void hit(Creature c){
+    public synchronized boolean hit(Creature c){
+        if((shotBy.equals("player") && c.getName().equals("player")) || 
+        (shotBy.equals("monster") && (c.getName().equals("bat") || c.getName().equals("rat") ||
+         c.getName().equals("ghost"))))return false;
         c.damage(attack);
         this.active = false;
+        return true;
     } 
 
 
