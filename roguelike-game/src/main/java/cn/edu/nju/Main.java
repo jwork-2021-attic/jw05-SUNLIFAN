@@ -19,7 +19,7 @@ public class Main {
 			KeyBoard kb = new KeyBoard();
 			Window.screen.addKeyListener(kb);
 			while(!kb.enter_be_pressed){
-				System.out.println("WAITING TO START.....");
+				
 			}
 			TimeUnit.MILLISECONDS.sleep(2000);
 			GameControl.startGame();

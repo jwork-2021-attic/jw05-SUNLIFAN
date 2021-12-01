@@ -1,9 +1,8 @@
 package cn.edu.nju.GameLogic;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,7 +22,7 @@ public class GameControl {
     private static Player myPlayer;
     private static ArrayList<Monster> monsters;
     private static Map map;
-    private static List<Bullet> bullets;
+    private static Vector<Bullet> bullets;
     public static boolean isOnTileScreen;
     public static boolean gameState;
     public static boolean playerWin;
@@ -32,7 +31,7 @@ public class GameControl {
         //create entities and prepare map
         String[] mapData = MapData.MAP_DATA;
         map = new Map(mapData);
-        bullets = new LinkedList<>();
+        bullets = new Vector<>();
         myPlayer = new Player(1, 1, map, bullets); 
         Random rand = new Random();
         monsters = new ArrayList<>();
@@ -74,7 +73,7 @@ public class GameControl {
         isOnTileScreen = false;
         gameState = true;
         playerWin = true;
-        cachedPool.execute(new BulletAI(bullets, map));
+        cachedPool.execute(new BulletAI(bullets));
         cachedPool.execute(new PlayerControl(myPlayer));
         for(Monster m : monsters){
             cachedPool.execute(new MonsterAI(m));
@@ -89,6 +88,6 @@ public class GameControl {
 
     public static  ArrayList<Monster> getMonsters(){return monsters;}
 
-    public static List<Bullet> getBullets(){return bullets;}
+    public static Vector<Bullet> getBullets(){return bullets;}
 
 }

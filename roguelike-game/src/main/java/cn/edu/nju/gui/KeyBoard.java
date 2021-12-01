@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 public class KeyBoard implements KeyListener{
 
-    public boolean enter_be_pressed = false;
+    public volatile boolean enter_be_pressed = false;
     @Override
     public void keyTyped(KeyEvent e) {
         

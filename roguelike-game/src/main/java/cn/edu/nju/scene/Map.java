@@ -24,6 +24,9 @@ public class Map {
                     case '^':
                         map[x][y] = new Tile("stairs",x,y,null);
                         break;
+                    case 'c':
+                        map[x][y] = new Tile("chest",x,y,null);
+                        break;
                 }
             }
     }
@@ -53,7 +56,7 @@ public class Map {
                 break;
         }
 
-        if((resX <= 0) || (resX >= height) || (resY <= 0) || (resY >= width))return null;
+        if((resX < 0) || (resX >= height) || (resY < 0) || (resY >= width))return null;
         return map[resX][resY];
     }
 }

@@ -10,9 +10,10 @@ import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
-import java.util.List;
+import java.util.Vector;
 import java.awt.Font;
 import java.awt.Color;
 
@@ -85,11 +86,15 @@ public class Renderer {
      * @param player
      * @param graphics
      */
-    public void renderBullets(List<Bullet> bullets, Player player, Graphics graphics){
+    public void renderBullets(Vector<Bullet> bullets, Player player, Graphics graphics){
         if(bullets == null || bullets.isEmpty())return;
-
+        
         for(int i = 0 ; i < bullets.size();i++){
-            Bullet b = bullets.get(i);
+                Bullet b = bullets.get(i);
+                if(!b.isActive()){
+                    bullets.remove(b);
+                    continue;
+                }
             BufferedImage sprite = Textures.getSprite("bullet");
             int drawPosX = calculateWidthOffset(sprite, b, player);
             int drawPosY = calculateHeightOffset(sprite, b, player);
@@ -132,6 +137,21 @@ public class Renderer {
         }
     }
 
+
+    public void renderUI(Graphics2D graphics, Player player){
+        graphics.setColor(Color.BLACK);
+		graphics.fillRoundRect(5, 5, 100, 150, 10, 10);
+		graphics.setColor(Color.WHITE);
+		graphics.drawRoundRect(5, 5, 100, 150, 10, 10);
+
+
+        graphics.setFont(new Font("Dialog", Font.PLAIN, 20));
+		graphics.drawString("- Player -", 10, 25);
+		graphics.setFont(new Font("Dialog", Font.PLAIN, 12));
+		graphics.drawString("HP: "+player.getHealth()+"/"+player.getMaxHealth(), 10, 45);
+		graphics.drawString("STR: "+player.getStrength(), 10, 65);
+    }
+
     /**
      * mirror the image based on its facing
      * @param image
@@ -149,6 +169,7 @@ public class Renderer {
 		}
 		return rotated;
 	}
+
 
     private int calculateWidthOffset(BufferedImage sprite, Tile tile, Player player){
         int offsetOnScreen = (tile.getYPos() - player.getYPos())*sprite.getWidth()*zoomLevel + (Window.WIDTH/2)-(sprite.getWidth()/2)*zoomLevel;;

@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import cn.edu.nju.GameLogic.GameControl;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Color;
 
 public class GameScreen extends JPanel{
@@ -32,6 +33,7 @@ public class GameScreen extends JPanel{
 			}
 			else{
 				renderer.renderMap(GameControl.getMap(), GameControl.getPlayer(),graphics);
+				renderer.renderUI((Graphics2D)graphics, GameControl.getPlayer());
 				renderer.renderPlayer(GameControl.getPlayer(), graphics);
 				renderer.renderMonsters(GameControl.getMonsters(),GameControl.getPlayer(), graphics);
 				renderer.renderBullets(GameControl.getBullets(), GameControl.getPlayer(), graphics);

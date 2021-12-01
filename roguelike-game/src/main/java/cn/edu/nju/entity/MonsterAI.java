@@ -1,6 +1,7 @@
 package cn.edu.nju.entity;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import cn.edu.nju.utils.Direction;
 
@@ -8,7 +9,6 @@ public class MonsterAI implements Runnable{
     private Monster monster;
     private Random rand;
     private boolean active;
-    private Long internalCounter;
 
 
 
@@ -16,7 +16,6 @@ public class MonsterAI implements Runnable{
         this.monster = monster;
         rand = new Random();
         this.active = true;
-        internalCounter = 0L;
     }
 
 
@@ -39,12 +38,13 @@ public class MonsterAI implements Runnable{
                     monster.setDirection(Direction.DOWN);
                     break;
             }
-            if(internalCounter == 10000000){
             monster.move();
-            if(rand.nextInt(6) == 1)monster.fire(monster.dir);
-            internalCounter = 0L;
+            if(rand.nextInt(2) == 1)monster.fire(monster.dir);
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("[MonsterAI]:Exceptions in MonsterAI!!!");
             }
-            internalCounter++;
         }
         }
     }

@@ -21,7 +21,7 @@ public class Monster extends Creature{
     public Type getType(){return this.type;}
 
     public void fire(Direction dir){
-        if(bullets.size() <= 50)bullets.add(new Bullet(strength,dir, xPos, yPos,"monster"));
+        if(bullets.size() <= 50)bullets.add(new Bullet(strength,dir, xPos, yPos,"monster", map));
         else System.out.println("Bullet list is full !");
     }
 

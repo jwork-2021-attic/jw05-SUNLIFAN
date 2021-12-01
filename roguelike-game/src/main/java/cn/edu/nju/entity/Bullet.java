@@ -1,5 +1,7 @@
 package cn.edu.nju.entity;
 
+import cn.edu.nju.scene.Map;
+import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
 
 public class Bullet {
@@ -10,21 +12,23 @@ public class Bullet {
     private int xPos;
     private int yPos;
     private String shotBy;
+    private Map map;
     
-    public Bullet(int attackVal, Direction direction,int x, int y,String shotBy){
+    public Bullet(int attackVal, Direction direction,int x, int y,String shotBy, Map map){
         this.attack = attackVal;
         this.direction = direction;
         this.active = true;
         this.xPos = x;
         this.yPos = y;
         this.shotBy = shotBy;
+        this.map = map;
     }
 
     public int getXPos(){return this.xPos;}
 
     public int getYPos(){return this.yPos;}
 
-    public void forward(){
+    public synchronized void forward(){
         switch(direction){
             case LEFT:
                 this.yPos-=speed;
@@ -38,6 +42,24 @@ public class Bullet {
             case DOWN:    
                 this.xPos+=speed;
                 break;
+        }
+        if(xPos <= 0 || xPos>=map.getHeight() || yPos <= 0 || yPos >= map.getWidth()){
+            this.active = false;
+            return;
+        }
+
+        Tile tile = map.getTile(xPos, yPos);
+        if(tile.getName().equals("wall")){
+            this.active = false;
+            return;
+        }else{
+            if(tile!=null && tile.getCreature()!=null){
+                Creature c = tile.getCreature();
+                System.out.println(c.getName() + " was hit ! ");
+                System.out.println("the health of "+ c.getName() + " is " + c.getHealth());
+                boolean success = hit(c);
+                if(success)this.active = false;
+            }
         }
     }
 
