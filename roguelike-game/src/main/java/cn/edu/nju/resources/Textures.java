@@ -3,6 +3,7 @@ package cn.edu.nju.resources;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.HashMap;
@@ -34,10 +35,11 @@ public class Textures {
 	/**Gets a sprite from the sprite HashMap
 	 * @param name - Corresponding name in HashMap
 	 * @return - A BufferedImage representing the requested sprite
+	 * @throws FileNotFoundException
 	 */
-	public static BufferedImage getSprite(String name) {
+	public static BufferedImage getSprite(String name) throws FileNotFoundException {
 		BufferedImage sprite = sprites.get(name);
-		if(sprite != null) return sprite;
-		else return sprites.get("error");
+		if(sprite == null)throw new FileNotFoundException();
+		return sprite;
 	}
 }

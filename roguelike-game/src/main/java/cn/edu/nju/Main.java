@@ -2,6 +2,7 @@ package cn.edu.nju;
 
 import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.gui.KeyBoard;
+import cn.edu.nju.gui.SuspendListener;
 import cn.edu.nju.gui.Window;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,9 @@ public class Main {
 				
 			}
 			TimeUnit.MILLISECONDS.sleep(2000);
+			SuspendListener suspendListener = new SuspendListener();
+			Window.screen.addKeyListener(suspendListener);
+			if(kb.restoreMode)GameControl.restoreGameState();
 			GameControl.startGame();
 			System.out.println("[Main]: Started!");
 			

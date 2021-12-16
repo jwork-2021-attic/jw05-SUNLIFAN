@@ -1,8 +1,10 @@
 package cn.edu.nju.scene;
 
+import java.io.Serializable;
+
 import cn.edu.nju.utils.Direction;
 
-public class Map {
+public class Map implements Serializable{
     private int width;
     private int height;
     private Tile[][] map;

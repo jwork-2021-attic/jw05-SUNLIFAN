@@ -12,6 +12,7 @@ import cn.edu.nju.utils.Direction;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Vector;
 import java.awt.Font;
@@ -30,9 +31,21 @@ public class Renderer {
      * @param graphics
      */
     public void renderPlayer(Player player, Graphics graphics){
-        BufferedImage sprite = Textures.getSprite("player");
 
-        if(player.dir == Direction.RIGHT)sprite = mirrorImage(Textures.getSprite("player"));
+        BufferedImage sprite = null;
+        try {
+            sprite = Textures.getSprite("player");
+        } catch (FileNotFoundException e) {
+            System.out.println("picture not found!");
+            e.printStackTrace();
+        }
+
+        if(player.dir == Direction.RIGHT)
+            try {
+                sprite = mirrorImage(Textures.getSprite("player"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         int drawPosX = (Window.WIDTH/2)-(sprite.getWidth()/2)*zoomLevel;
 		int drawPosY = (Window.HEIGHT/2)-(sprite.getHeight()/2)*zoomLevel;
@@ -54,7 +67,12 @@ public class Renderer {
         for(int i = 0; i < height;i++)
             for(int j = 0; j < width;j ++){
                 Tile tile = mapData.getTile(i, j);
-                BufferedImage sprite = Textures.getSprite(tile.getName());
+                BufferedImage sprite = null;
+                try {
+                    sprite = Textures.getSprite(tile.getName());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 int drawPosX = calculateWidthOffset(sprite, tile, player);
                 int drawPosY = calculateHeightOffset(sprite, tile, player);
                 graphics.drawImage(sprite, drawPosX, drawPosY, 
@@ -72,7 +90,12 @@ public class Renderer {
 
         for(Monster m : monsters){
             if(!m.isAlive())continue;
-            BufferedImage sprite = Textures.getSprite(m.getName());
+            BufferedImage sprite = null;
+            try {
+                sprite = Textures.getSprite(m.getName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             int xPos = calculateWidthOffset(sprite, m, player);
             int yPos = calculateHeightOffset(sprite, m, player);
             graphics.drawImage(sprite, xPos, yPos, sprite.getWidth()*zoomLevel,
@@ -95,7 +118,12 @@ public class Renderer {
                     bullets.remove(b);
                     continue;
                 }
-            BufferedImage sprite = Textures.getSprite("bullet");
+            BufferedImage sprite = null;
+            try {
+                sprite = Textures.getSprite("bullet");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             int drawPosX = calculateWidthOffset(sprite, b, player);
             int drawPosY = calculateHeightOffset(sprite, b, player);
             graphics.drawImage(sprite, drawPosX, drawPosY, 
@@ -138,6 +166,11 @@ public class Renderer {
     }
 
 
+    /**
+     * render user interface
+     * @param graphics
+     * @param player
+     */
     public void renderUI(Graphics2D graphics, Player player){
         graphics.setColor(Color.BLACK);
 		graphics.fillRoundRect(5, 5, 100, 150, 10, 10);
@@ -152,6 +185,7 @@ public class Renderer {
 		graphics.drawString("STR: "+player.getStrength(), 10, 65);
     }
 
+    
     /**
      * mirror the image based on its facing
      * @param image

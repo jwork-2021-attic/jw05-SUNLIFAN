@@ -1,12 +1,13 @@
 package cn.edu.nju.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.edu.nju.scene.Map;
 import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
 
-public class Creature {
+public class Creature implements Serializable{
     public Map map;
     protected List<Bullet> bullets;
 

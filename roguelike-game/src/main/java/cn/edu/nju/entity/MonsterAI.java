@@ -3,6 +3,7 @@ package cn.edu.nju.entity;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.utils.Direction;
 
 public class MonsterAI implements Runnable{
@@ -22,6 +23,8 @@ public class MonsterAI implements Runnable{
     @Override
     public void run() {
         while(this.active){
+            if(!GameControl.gameState)break;
+            if(GameControl.suspend)continue;
             if(!monster.isAlive())break;
             int dir = rand.nextInt(4);
             switch(dir){

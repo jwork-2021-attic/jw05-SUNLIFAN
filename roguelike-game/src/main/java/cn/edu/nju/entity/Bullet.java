@@ -1,10 +1,12 @@
 package cn.edu.nju.entity;
 
+import java.io.Serializable;
+
 import cn.edu.nju.scene.Map;
 import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
 
-public class Bullet {
+public class Bullet implements Serializable{
     public static final int speed = 1;
     private boolean active;
     private int attack;

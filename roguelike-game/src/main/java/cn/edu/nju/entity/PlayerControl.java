@@ -20,7 +20,8 @@ public class PlayerControl implements Runnable, KeyListener{
     @Override
     public void run() {
         while(active){
-            //System.out.println("player alive");
+            if(!GameControl.gameState)break;
+            if(GameControl.suspend)continue;
             if(!player.isAlive()){
                 System.out.println("[Player Control:]player died");
                 active = false;
@@ -33,6 +34,7 @@ public class PlayerControl implements Runnable, KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if(GameControl.suspend)return;
         
         switch(e.getKeyCode()){
             case KeyEvent.VK_W:
@@ -84,6 +86,7 @@ public class PlayerControl implements Runnable, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if(GameControl.suspend)return;
         
         switch(e.getKeyCode()){
             case KeyEvent.VK_W:

@@ -3,6 +3,8 @@ package cn.edu.nju.entity;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import cn.edu.nju.GameLogic.GameControl;
+
 
 public class BulletAI implements Runnable{
     private List<Bullet> bullets;
@@ -14,6 +16,8 @@ public class BulletAI implements Runnable{
     @Override
     public void run() {
         while(true){
+            if(!GameControl.gameState)break;
+            if(GameControl.suspend)continue;
             for(int i = 0; i < bullets.size(); i ++){
                 Bullet b = bullets.get(i);
                 b.forward();

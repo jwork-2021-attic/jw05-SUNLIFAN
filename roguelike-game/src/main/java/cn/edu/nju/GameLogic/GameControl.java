@@ -1,5 +1,9 @@
 package cn.edu.nju.GameLogic;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -26,10 +30,12 @@ public class GameControl {
     public static boolean isOnTileScreen;
     public static boolean gameState;
     public static boolean playerWin;
+    public static volatile boolean suspend;
     
     private static void init(){
         //create entities and prepare map
         String[] mapData = MapData.MAP_DATA;
+        suspend = false;
         map = new Map(mapData);
         bullets = new Vector<>();
         myPlayer = new Player(1, 1, map, bullets); 
@@ -79,7 +85,35 @@ public class GameControl {
             cachedPool.execute(new MonsterAI(m));
         }
         
-        
+    }
+
+    public static void saveGameState(){
+        try (FileOutputStream fileOut = new FileOutputStream("progressSaved/progress"+".ser");
+        ObjectOutputStream objOut = new ObjectOutputStream(fileOut)) {
+            GameState state = new GameState(bullets, myPlayer, monsters, map, suspend);
+            objOut.writeObject(state);
+            System.out.println("[GameControl]:progress saved.......");
+        } catch (Exception e) {
+            System.out.println("[GameControl]:exception occurs when saving progress......");
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void restoreGameState(){
+        try (FileInputStream fileIn = new FileInputStream("progressSaved/progress"+".ser");
+        ObjectInputStream objIn = new ObjectInputStream(fileIn)) {
+            GameState state = (GameState)objIn.readObject();
+            bullets = state.getBullets();
+            myPlayer = state.getPlayer();
+            monsters = state.getMonster();
+            map = state.getMap();
+            suspend = state.isSuspended();
+            System.out.println("[GameControl]:progress restored.......");
+        } catch (Exception e) {
+            System.out.println("[GameControl]: exception occurs when restoring game state....");
+            System.out.println("[GameControl]: no such game process files.......");
+        }
     }
 
     public static Map getMap(){return map;}

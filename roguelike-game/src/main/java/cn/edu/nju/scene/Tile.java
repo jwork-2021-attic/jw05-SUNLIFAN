@@ -1,8 +1,10 @@
 package cn.edu.nju.scene;
 
+import java.io.Serializable;
+
 import cn.edu.nju.entity.Creature;
 
-public class Tile {
+public class Tile implements Serializable{
     private String name;
     private int xPos;
     private int yPos;
@@ -40,4 +42,11 @@ public class Tile {
     }
 
     public Creature getCreature(){return this.creature;}
+
+
+    @Override
+    public boolean equals(Object o){
+        Tile t = (Tile) o;
+        return t.xPos == xPos && t.yPos == yPos && t.creature == creature;
+    }
 }
