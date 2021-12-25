@@ -2,7 +2,6 @@ package cn.edu.nju.gui;
 
 import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.entity.Bullet;
-import cn.edu.nju.entity.Monster;
 import cn.edu.nju.entity.Player;
 import cn.edu.nju.resources.Textures;
 import cn.edu.nju.scene.Map;
@@ -14,6 +13,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import java.awt.Font;
 import java.awt.Color;
@@ -56,6 +57,44 @@ public class Renderer {
     }
 
     /**
+     * render other players on your screen
+     * @param graphics
+     * @param otherPlayers
+     */
+    public void renderOtherPlayers(Graphics graphics, HashMap<Integer ,Player> otherPlayers){
+        if(otherPlayers == null || otherPlayers.size() == 0)return;
+        Collection<Player> players = otherPlayers.values();
+        Iterator<Player> iterator = players.iterator();
+        while(iterator.hasNext()){
+            Player player = iterator.next();
+            if(!player.isAlive()){
+                iterator.remove();
+                continue;
+            }
+
+        BufferedImage sprite = null;
+        try {
+            sprite = Textures.getSprite("player");
+        } catch (FileNotFoundException e) {
+            System.out.println("picture not found!");
+            e.printStackTrace();
+        }
+
+        if(player.dir == Direction.RIGHT)
+            try {
+                sprite = mirrorImage(Textures.getSprite("player"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        
+        int xPos = calculateHeightOffset(sprite, player, GameControl.getPlayer());
+        int yPos = calculateWidthOffset(sprite, player, GameControl.getPlayer());
+        graphics.drawImage(sprite, xPos, yPos, sprite.getWidth()*zoomLevel,
+            sprite.getHeight()*zoomLevel, null);
+        }
+    }
+
+    /**
      * render tiles at correct position
      * @param mapData
      * @param graphics
@@ -80,28 +119,7 @@ public class Renderer {
             }
     }
 
-    /**
-     * render current alive monsters
-     * @param monsters
-     * @param graphics
-     */
-    public void renderMonsters(Collection<Monster> monsters, Player player, Graphics graphics){
-        if(monsters == null || monsters.isEmpty())return;
 
-        for(Monster m : monsters){
-            if(!m.isAlive())continue;
-            BufferedImage sprite = null;
-            try {
-                sprite = Textures.getSprite(m.getName());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            int xPos = calculateWidthOffset(sprite, m, player);
-            int yPos = calculateHeightOffset(sprite, m, player);
-            graphics.drawImage(sprite, xPos, yPos, sprite.getWidth()*zoomLevel,
-            sprite.getHeight()*zoomLevel, null);
-        }
-    }
 
     /**
      * render bullets at correct places
@@ -229,16 +247,15 @@ public class Renderer {
         return offsetOnScreen;
     }
 
-    private int calculateWidthOffset(BufferedImage sprite, Monster monster, Player player){
-        int offsetOnScreen = (monster.getYPos() - player.getYPos())*sprite.getWidth()*zoomLevel + (Window.WIDTH/2)-(sprite.getWidth()/2)*zoomLevel;
+    private int calculateWidthOffset(BufferedImage sprite, Player anotherPlayer, Player player){
+        int offsetOnScreen = (anotherPlayer.getYPos() - player.getYPos())*sprite.getWidth()*zoomLevel + (Window.WIDTH/2)-(sprite.getWidth()/2)*zoomLevel;
 
         return offsetOnScreen;
     }
 
-    private int calculateHeightOffset(BufferedImage sprite, Monster monster, Player player){
-        int offsetOnScreen = (monster.getXPos() - player.getXPos())*sprite.getHeight()*zoomLevel + (Window.HEIGHT/2)-(sprite.getHeight()/2)*zoomLevel;
+    private int calculateHeightOffset(BufferedImage sprite, Player anotherPlayer, Player player){
+        int offsetOnScreen = (anotherPlayer.getXPos() - player.getXPos())*sprite.getHeight()*zoomLevel + (Window.HEIGHT/2)-(sprite.getHeight()/2)*zoomLevel;
 
         return offsetOnScreen;
     }
-
 }

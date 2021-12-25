@@ -21,7 +21,6 @@ public class PlayerControl implements Runnable, KeyListener{
     public void run() {
         while(active){
             if(!GameControl.gameState)break;
-            if(GameControl.suspend)continue;
             if(!player.isAlive()){
                 System.out.println("[Player Control:]player died");
                 active = false;
@@ -34,106 +33,52 @@ public class PlayerControl implements Runnable, KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(GameControl.suspend)return;
-        
         switch(e.getKeyCode()){
             case KeyEvent.VK_W:
                 player.setDirection(Direction.UP);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_S:    
                 player.setDirection(Direction.DOWN);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_A: 
                 player.setDirection(Direction.LEFT);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_D:
                 player.setDirection(Direction.RIGHT);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_SPACE:
                 player.fire(player.dir);
                 break;    
         }
-        
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(GameControl.suspend)return;
-        
         switch(e.getKeyCode()){
             case KeyEvent.VK_W:
                 player.setDirection(Direction.UP);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_S:    
                 player.setDirection(Direction.DOWN);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_A: 
                 player.setDirection(Direction.LEFT);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_D:
                 player.setDirection(Direction.RIGHT);
-                if(GameControl.getMap().getNeighborTile(player.getXPos(), player.getYPos(), player.dir).getName().equals("stairs")){
-                    GameControl.gameState = false;
-                    GameControl.playerWin = true;
-                    active = false;
-                    break;
-                }
                 player.move();
                 break;
             case KeyEvent.VK_SPACE:
                 player.fire(player.dir);
                 break;    
-        }
-        //System.out.format("player's current position : x = %d, y = %d %n", player.getXPos(),player.getYPos());
+        } 
     }
 
     @Override

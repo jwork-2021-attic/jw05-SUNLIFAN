@@ -35,7 +35,7 @@ public class GameScreen extends JPanel{
 				renderer.renderMap(GameControl.getMap(), GameControl.getPlayer(),graphics);
 				renderer.renderUI((Graphics2D)graphics, GameControl.getPlayer());
 				renderer.renderPlayer(GameControl.getPlayer(), graphics);
-				renderer.renderMonsters(GameControl.getMonsters(),GameControl.getPlayer(), graphics);
+				renderer.renderOtherPlayers(graphics, GameControl.getOtherPlayers());
 				renderer.renderBullets(GameControl.getBullets(), GameControl.getPlayer(), graphics);
 			}
 		} catch (Exception e) {
