@@ -17,7 +17,6 @@ public class BulletAI implements Runnable{
     public void run() {
         while(true){
             if(!GameControl.gameState)break;
-            //if(GameControl.suspend)continue;
             for(int i = 0; i < bullets.size(); i ++){
                 Bullet b = bullets.get(i);
                 b.forward();

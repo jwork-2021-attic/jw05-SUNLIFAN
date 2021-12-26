@@ -18,7 +18,7 @@ public class BulletNewMsg implements Message{
         int xPos = Integer.parseInt(tokens[2]);
         int yPos = Integer.parseInt(tokens[3]);
         Direction dir = Direction.LEFT;
-        switch(Integer.parseInt(tokens[4])){
+        switch(Integer.parseInt(tokens[4].trim())){
             case 0:
                 dir = Direction.LEFT;
                 break;

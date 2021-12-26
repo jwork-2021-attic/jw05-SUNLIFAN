@@ -87,8 +87,8 @@ public class Renderer {
                 e.printStackTrace();
             }
         
-        int xPos = calculateHeightOffset(sprite, player, GameControl.getPlayer());
-        int yPos = calculateWidthOffset(sprite, player, GameControl.getPlayer());
+        int yPos = calculateHeightOffset(sprite, player, GameControl.getPlayer());
+        int xPos = calculateWidthOffset(sprite, player, GameControl.getPlayer());
         graphics.drawImage(sprite, xPos, yPos, sprite.getWidth()*zoomLevel,
             sprite.getHeight()*zoomLevel, null);
         }

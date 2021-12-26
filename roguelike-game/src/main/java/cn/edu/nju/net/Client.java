@@ -64,6 +64,7 @@ public class Client {
     }
 
     public void sendMsg(String msg){
+        if(msg == null || msg.length() == 0)return;
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(msg.getBytes());
         buffer.flip();
@@ -85,6 +86,7 @@ public class Client {
 
         String msg = new String(buffer.array());
         Message myMsg = MessageFactory.createMessage(msg);
+        System.out.println("Got:" + msg);
         myMsg.decode();
     }
     public static void main(String[] args) {

@@ -2,6 +2,7 @@ package cn.edu.nju.entity;
 
 import java.io.Serializable;
 
+import cn.edu.nju.net.Client;
 import cn.edu.nju.scene.Map;
 import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
@@ -74,9 +75,7 @@ public class Bullet implements Serializable{
      * @param c
      */
     public synchronized boolean hit(Creature c){
-        if((shotBy.equals("player") && c.getName().equals("player")) || 
-        (shotBy.equals("monster") && (c.getName().equals("bat") || c.getName().equals("rat") ||
-         c.getName().equals("ghost"))))return false;
+        if(shotBy.equals(Client.getInstance().clientID + ""))return false;
         c.damage(attack);
         this.active = false;
         return true;

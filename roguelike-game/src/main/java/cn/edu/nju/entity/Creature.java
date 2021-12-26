@@ -3,8 +3,6 @@ package cn.edu.nju.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.edu.nju.net.Client;
-import cn.edu.nju.net.protocol.Message;
 import cn.edu.nju.scene.Map;
 import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
@@ -53,14 +51,11 @@ public class Creature implements Serializable{
 
     public synchronized void damage(int amount){
         this.health -= amount;
-        String msg = Client.getInstance().clientID + "_" + Message.CREATURE_DAMAGED_MSG + "_" + 
-        xPos + "_" + yPos + "_" + dir.ordinal() + "_" + amount;
         if(this.health <= 0){
             health = 0;
             map.getTile(xPos, yPos).setCreature(null);
             this.alive = false;
         }
-        Client.getInstance().sendMsg(msg);
     }
 
     public void setDirection(Direction dir){
@@ -98,9 +93,6 @@ public class Creature implements Serializable{
             xPos = curX;
             yPos = curY;
             neighborTile.setCreature(this);
-            String msg = Client.getInstance().clientID + "_" + Message.CREATURE_MOVE_MSG + "_" + 
-            this.xPos + "_" + this.yPos + "_" + dir.ordinal();
-            Client.getInstance().sendMsg(msg);
         }
         
     }
@@ -110,9 +102,6 @@ public class Creature implements Serializable{
     public void fire(Direction dir){
         if(bullets.size() <= 1000){
             bullets.add(new Bullet(strength,dir, xPos, yPos,name,map));
-            String msg = Client.getInstance().clientID + "_" + Message.BULLET_NEW_MSG + "_" + xPos + "_" + 
-            yPos + "_" + dir.ordinal();
-            Client.getInstance().sendMsg(msg);
         }
         else System.out.println("Bullet list is full !");
     }
