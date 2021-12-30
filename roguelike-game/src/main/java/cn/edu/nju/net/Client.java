@@ -17,6 +17,7 @@ public class Client {
     private SocketChannel clientChannel;
     private static Client clientInstance = new Client(0);
     public static int gold = 0;
+    public static int kill = 0;
     
     public Client(int ID){
         this.clientID = ID;

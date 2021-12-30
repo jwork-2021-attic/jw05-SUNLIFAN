@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 
 public class Window {
 
-	public static final int WIDTH = 900;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 500;
 	
 	private static JFrame window;
 	public static GameScreen screen;

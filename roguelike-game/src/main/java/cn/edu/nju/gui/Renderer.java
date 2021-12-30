@@ -178,7 +178,7 @@ public class Renderer {
 		graphics.drawString("I've been waiting here for you since the beginning of this universe...", 100, 180);
 		graphics.drawString("You know the world is fading...", 100, 210);
 		graphics.drawString("Can you escape here?", 100, 240);
-		graphics.drawString("Press enter to start.....", 200, 350);
+		graphics.drawString("Press enter to connect to the server.....", 200, 350);
 	}
 
 
@@ -192,7 +192,7 @@ public class Renderer {
 		graphics.setFont(new Font("Dialog", Font.PLAIN, 40));
 		graphics.drawString("Roguelike Game", 100, 100);
         if(GameControl.playerWin){
-            graphics.drawString("Marvelous! You have escaped....", 100, 150);
+            graphics.drawString("Marvelous! You have won the game", 100, 150);
         }else{
             graphics.drawString("You died. What a pity ....", 100, 150);
         }
@@ -219,6 +219,7 @@ public class Renderer {
         graphics.drawString("DEF: "+player.getDefence(), 10, 85);
         graphics.drawString("GOLD: "+Client.gold, 10, 105);
         graphics.drawString("playerID: " + Client.getInstance().clientID, 10, 125);
+        graphics.drawString("kill: "+Client.kill, 10, 145);
     }
 
     
