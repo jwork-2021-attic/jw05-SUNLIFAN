@@ -2,7 +2,9 @@ package cn.edu.nju.gui;
 
 import cn.edu.nju.GameLogic.GameControl;
 import cn.edu.nju.entity.Bullet;
+import cn.edu.nju.entity.Monster;
 import cn.edu.nju.entity.Player;
+import cn.edu.nju.net.Client;
 import cn.edu.nju.resources.Textures;
 import cn.edu.nju.scene.Map;
 import cn.edu.nju.scene.Tile;
@@ -35,7 +37,7 @@ public class Renderer {
 
         BufferedImage sprite = null;
         try {
-            sprite = Textures.getSprite("player");
+            sprite = Textures.getSprite(player.getName());
         } catch (FileNotFoundException e) {
             System.out.println("picture not found!");
             e.printStackTrace();
@@ -43,7 +45,7 @@ public class Renderer {
 
         if(player.dir == Direction.RIGHT)
             try {
-                sprite = mirrorImage(Textures.getSprite("player"));
+                sprite = mirrorImage(Textures.getSprite(player.getName()));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -74,7 +76,7 @@ public class Renderer {
 
         BufferedImage sprite = null;
         try {
-            sprite = Textures.getSprite("player");
+            sprite = Textures.getSprite(player.getName());
         } catch (FileNotFoundException e) {
             System.out.println("picture not found!");
             e.printStackTrace();
@@ -82,7 +84,7 @@ public class Renderer {
 
         if(player.dir == Direction.RIGHT)
             try {
-                sprite = mirrorImage(Textures.getSprite("player"));
+                sprite = mirrorImage(Textures.getSprite(player.getName()));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -90,6 +92,19 @@ public class Renderer {
         int yPos = calculateHeightOffset(sprite, player, GameControl.getPlayer());
         int xPos = calculateWidthOffset(sprite, player, GameControl.getPlayer());
         graphics.drawImage(sprite, xPos, yPos, sprite.getWidth()*zoomLevel,
+            sprite.getHeight()*zoomLevel, null);
+        }
+    }
+
+    public void renderMonsters(Collection<Monster> monsters, Player player, Graphics graphics) throws FileNotFoundException{
+        if(monsters == null || monsters.isEmpty())return;
+
+        for(Monster m : monsters){
+            if(!m.isAlive())continue;
+            BufferedImage sprite = Textures.getSprite(m.getName());
+            int xPos = calculateWidthOffset(sprite, m, player);
+            int yPos = calculateHeightOffset(sprite, m, player);
+            graphics.drawImage(sprite, xPos, yPos, sprite.getWidth()*zoomLevel,
             sprite.getHeight()*zoomLevel, null);
         }
     }
@@ -201,6 +216,9 @@ public class Renderer {
 		graphics.setFont(new Font("Dialog", Font.PLAIN, 12));
 		graphics.drawString("HP: "+player.getHealth()+"/"+player.getMaxHealth(), 10, 45);
 		graphics.drawString("STR: "+player.getStrength(), 10, 65);
+        graphics.drawString("DEF: "+player.getDefence(), 10, 85);
+        graphics.drawString("GOLD: "+Client.gold, 10, 105);
+        graphics.drawString("playerID: " + Client.getInstance().clientID, 10, 125);
     }
 
     
@@ -258,4 +276,18 @@ public class Renderer {
 
         return offsetOnScreen;
     }
+
+    private int calculateWidthOffset(BufferedImage sprite, Monster monster, Player player){
+        int offsetOnScreen = (monster.getYPos() - player.getYPos())*sprite.getWidth()*zoomLevel + (Window.WIDTH/2)-(sprite.getWidth()/2)*zoomLevel;
+
+        return offsetOnScreen;
+    }
+
+    private int calculateHeightOffset(BufferedImage sprite, Monster monster, Player player){
+        int offsetOnScreen = (monster.getXPos() - player.getXPos())*sprite.getHeight()*zoomLevel + (Window.HEIGHT/2)-(sprite.getHeight()/2)*zoomLevel;
+
+        return offsetOnScreen;
+    }
+
+
 }

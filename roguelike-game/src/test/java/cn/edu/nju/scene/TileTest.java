@@ -25,7 +25,7 @@ public class TileTest {
     public void setCreatureTest(){
         assertNull(tile.getCreature());
         assert(tile.isAvailable());
-        Creature c = new Creature("player", 2, 2, map, null);
+        Creature c = new Creature("player", 2, 2, map, null, 0);
         assertNotNull(tile.getCreature());
         assert(!tile.isAvailable());
         tile.setCreature(null);

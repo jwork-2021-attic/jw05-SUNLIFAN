@@ -34,7 +34,7 @@ public class CreatureNewMsg implements Message{
                 dir = Direction.DOWN;
                 break;
         }
-        Player player = new Player(xPos, yPos, GameControl.getMap(), GameControl.getBullets());
+        Player player = new Player(xPos, yPos, GameControl.getMap(), GameControl.getBullets(), id);
         player.setDirection(dir);
         GameControl.getOtherPlayers().put(id, player);
         Client.getInstance().sendMsg(Client.getInstance().clientID + "_" + Message.CREATURE_ALREADY_EXISTS_MSG + "_" + GameControl.getPlayer().getXPos() +

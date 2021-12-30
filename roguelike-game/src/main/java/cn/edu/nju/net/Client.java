@@ -15,7 +15,8 @@ import cn.edu.nju.net.protocol.MessageFactory;
 public class Client {
     public int clientID;
     private SocketChannel clientChannel;
-    private static Client clientInstance = new Client(1);
+    private static Client clientInstance = new Client(0);
+    public static int gold = 0;
     
     public Client(int ID){
         this.clientID = ID;
@@ -28,13 +29,17 @@ public class Client {
     public void startClient() {
         InetSocketAddress hostAddress = new InetSocketAddress("localhost", 2012);
         try {
+            ByteBuffer tmp = ByteBuffer.allocate(10);
             clientChannel = SocketChannel.open(hostAddress);
+            int numRead = clientChannel.read(tmp);
+            if(numRead != 0 && numRead != -1)clientID = (int)tmp.array()[0];
         } catch (IOException e1) {
             System.out.println("[Client]:IO Exception occurs when connecting.....");
             e1.printStackTrace();
             System.exit(-1);
         }
         System.out.println("[Client]: Client starting.....");
+
         Window.create();
         GameControl.initGame();
         Window.setVisible();

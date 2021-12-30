@@ -14,10 +14,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+
 public class GameServer {
     private Selector selector;
     private InetSocketAddress listenAddress;
     public static final int PORT = 2012;
+    public static byte nextClientID = 0;
     private List<SocketChannel> clientChannels;
 
     public GameServer(String address, int port){
@@ -38,6 +40,7 @@ public class GameServer {
         this.selector = Selector.open();
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
+        
 
         //bind server socket channel to port
         serverChannel.socket().bind(listenAddress);
@@ -95,6 +98,12 @@ public class GameServer {
 		 * operations, here we have used read operation)
 		 */
 		channel.register(this.selector, SelectionKey.OP_READ);
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        buffer.put(nextClientID);
+        nextClientID++;
+        buffer.flip();
+        channel.write(buffer);
+        buffer.clear();
         clientChannels.add(channel);
 	}
 
@@ -119,4 +128,7 @@ public class GameServer {
 		System.out.println("Got: " + new String(data));
         return data;
 	}
+
+
+    
 }

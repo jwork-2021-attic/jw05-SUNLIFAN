@@ -34,7 +34,7 @@ public class CreatureAlreadyExists implements Message{
                 dir = Direction.DOWN;
                 break;
         }
-        Player player = new Player(xPos, yPos, GameControl.getMap(), GameControl.getBullets());
+        Player player = new Player(xPos, yPos, GameControl.getMap(), GameControl.getBullets(), id);
         player.setDirection(dir);
         player.damage(player.getMaxHealth() - health);
         GameControl.getOtherPlayers().put(id, player);

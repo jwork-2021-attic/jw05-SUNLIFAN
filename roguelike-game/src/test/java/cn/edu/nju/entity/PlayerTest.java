@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import cn.edu.nju.net.Client;
 import cn.edu.nju.resources.MapData;
 import cn.edu.nju.scene.Map;
 
@@ -14,7 +15,7 @@ public class PlayerTest {
     @Before
     public void setUp(){
         map = new Map(MapData.MAP_DATA);
-        player = new Player(1, 1, map, null);
+        player = new Player(1, 1, map, null, Client.getInstance().clientID);
     }
 
     @Test

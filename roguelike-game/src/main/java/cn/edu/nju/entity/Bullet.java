@@ -61,6 +61,7 @@ public class Bullet implements Serializable{
                 System.out.println(c.getName() + " was hit ! ");
                 System.out.println("the health of "+ c.getName() + " is " + c.getHealth());
                 boolean success = hit(c);
+                if(!c.isAlive() && shotBy.equals("player"))Client.gold += 2;
                 if(success)this.active = false;
             }
         }
@@ -75,7 +76,7 @@ public class Bullet implements Serializable{
      * @param c
      */
     public synchronized boolean hit(Creature c){
-        if(shotBy.equals(Client.getInstance().clientID + ""))return false;
+        if(shotBy.equals(c.id))return false;
         c.damage(attack);
         this.active = false;
         return true;

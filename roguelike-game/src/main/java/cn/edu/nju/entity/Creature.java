@@ -3,9 +3,11 @@ package cn.edu.nju.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.edu.nju.net.Client;
 import cn.edu.nju.scene.Map;
 import cn.edu.nju.scene.Tile;
 import cn.edu.nju.utils.Direction;
+import cn.edu.nju.utils.Strengthen;
 
 public class Creature implements Serializable{
     public Map map;
@@ -27,11 +29,12 @@ public class Creature implements Serializable{
     protected int xPos;
     protected int yPos;
 
+    protected int id;
     public int getXPos(){return xPos;}
 
     public int getYPos(){return yPos;}
 
-    public Creature(String name, int x, int y, Map map, List<Bullet> bullets){
+    public Creature(String name, int x, int y, Map map, List<Bullet> bullets, int id){
         this.name = name;
         this.xPos = x;
         this.yPos = y;
@@ -45,12 +48,23 @@ public class Creature implements Serializable{
         this.map = map;
         map.getTile(xPos, yPos).setCreature(this);
         this.bullets = bullets;
+        this.id = id;
     }
 
+    public int getDefence(){
+        return this.defence;
+    }
     public String getName(){return this.name;}
 
     public synchronized void damage(int amount){
-        this.health -= amount;
+        int leftDamage = amount - defence;
+        if(leftDamage <= 0){
+            defence -= amount;
+            return;
+        }else{
+            defence = 0;
+        }
+        this.health -= leftDamage;
         if(this.health <= 0){
             health = 0;
             map.getTile(xPos, yPos).setCreature(null);
@@ -93,6 +107,12 @@ public class Creature implements Serializable{
             xPos = curX;
             yPos = curY;
             neighborTile.setCreature(this);
+        }else if(neighborTile != null && neighborTile.getName().equals("chest") && Client.gold >= 3){
+            //open the chest to get some strengthen
+            neighborTile.open(this);
+            Client.gold -= 3;
+        }else if(neighborTile != null && neighborTile.getName().equals("drawer")){
+            neighborTile.openDrawer();
         }
         
     }
@@ -106,6 +126,22 @@ public class Creature implements Serializable{
         else System.out.println("Bullet list is full !");
     }
 
-
+    public void getStrengthened(Strengthen type){
+        switch(type){
+            case MAX_HEALTH:
+                this.maxHealth += 3;
+                break;
+            case HEALTH:
+                this.health += 4;
+                if(health >= maxHealth)health = maxHealth;
+                break;
+            case STRENGTH:
+                this.strength += 1;
+                break;
+            case DEFENCE:
+                this.defence += 2;
+                break;
+        }
+    }
 
 }

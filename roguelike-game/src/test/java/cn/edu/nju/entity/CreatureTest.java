@@ -18,7 +18,7 @@ public class CreatureTest {
     @Before
     public void init(){
         map = new Map(MapData.MAP_DATA);
-        creature = new Creature("creature4test", 2, 1, map, new Vector<Bullet>());
+        creature = new Creature("creature4test", 2, 1, map, new Vector<Bullet>(), 0);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class CreatureTest {
     @Test
     public void damageTest(){
         creature.damage(5);
-        assertEquals(5 , creature.getHealth());
+        assertEquals(7 , creature.getHealth());
         assertEquals(10 , creature.getMaxHealth());
         assert(creature.isAlive());
         creature.damage(10);
@@ -71,6 +71,6 @@ public class CreatureTest {
         creature.fire(creature.dir);
         assertEquals(1, creature.bullets.size());
         for(int i = 0; i < 200; i ++)creature.fire(creature.dir);
-        assertEquals(101, creature.bullets.size());
+        assertEquals(201, creature.bullets.size());
     }
 }

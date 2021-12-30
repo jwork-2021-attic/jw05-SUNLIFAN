@@ -37,6 +37,7 @@ public class GameScreen extends JPanel{
 				renderer.renderPlayer(GameControl.getPlayer(), graphics);
 				renderer.renderOtherPlayers(graphics, GameControl.getOtherPlayers());
 				renderer.renderBullets(GameControl.getBullets(), GameControl.getPlayer(), graphics);
+				renderer.renderMonsters(GameControl.monsters, GameControl.getPlayer(), graphics);
 			}
 		} catch (Exception e) {
 			System.err.println("\n[Logic][GameLoop]: Uncaught exception in render system!\n");
